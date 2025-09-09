@@ -1,0 +1,29 @@
+<section class="flex items-center justify-center py-12">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+    <h2 class="text-3xl font-extrabold text-iskcon-orange mb-6 text-center">Login</h2>
+
+    <% if (error) { %>
+      <p class="text-red-500 text-center mb-4"><%= error %></p>
+    <% } %>
+
+    <form action="/login" method="POST" class="space-y-4">
+      <div>
+        <input type="email" name="email" placeholder="Email" 
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-iskcon-orange" required>
+      </div>
+      <div>
+        <input type="password" name="password" placeholder="Password" 
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-iskcon-orange" required>
+      </div>
+      <button type="submit" 
+        class="w-full bg-iskcon-blue text-white font-semibold py-2 rounded-lg hover:opacity-95 transition">
+        Login
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-6">
+      Don't have an account? 
+      <a href="/register" class="text-iskcon-orange font-medium hover:underline">Register</a>
+    </p>
+  </div>
+</section>

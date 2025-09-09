@@ -1,0 +1,43 @@
+
+
+<div class="mb-6">
+  <h1 class="hero-title text-iskcon-orange">Payment Requests</h1>
+  <p class="text-sm text-muted">Approve or reject payment requests from members.</p>
+</div>
+
+<div class="card overflow-x-auto">
+  <% if (!requests || requests.length === 0) { %>
+    <p class="text-muted">No payment requests at the moment.</p>
+  <% } else { %>
+    <table class="w-full rank-table">
+      <thead>
+        <tr><th>Member</th><th>Semester</th><th>Amount</th><th>Method</th><th>Note</th><th>When</th><th>Status</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <% requests.forEach(r => { %>
+          <tr>
+            <td><%= r.user ? r.user.name : 'Unknown' %><br/><small class="text-muted"><%= r.user ? r.user.email : '' %></small></td>
+            <td><%= r.semester %></td>
+            <td>₹<%= r.amount %></td>
+            <td><%= r.method %></td>
+            <td><%= r.note %></td>
+            <td><%= new Date(r.createdAt).toLocaleString() %></td>
+            <td class="text-sm"><%= r.status %></td>
+            <td>
+              <% if (r.status === 'pending') { %>
+                <form action="/admin/payments/<%= r._id %>/approve" method="POST" style="display:inline">
+                  <button class="btn btn-primary">Approve</button>
+                </form>
+                <form action="/admin/payments/<%= r._id %>/reject" method="POST" style="display:inline;margin-left:.5rem">
+                  <button class="btn btn-ghost">Reject</button>
+                </form>
+              <% } else { %>
+                <small class="text-muted">Processed</small>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>

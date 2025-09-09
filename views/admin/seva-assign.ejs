@@ -1,0 +1,60 @@
+
+
+<div class="mb-6">
+  <h1 class="hero-title text-iskcon-orange">Assign Seva</h1>
+  <p class="text-sm text-muted">Assign seva tasks to members (single or multiple).</p>
+</div>
+
+<div class="card">
+  <% if (error) { %>
+    <div class="text-red-500 mb-3"><%= error %></div>
+  <% } %>
+
+  <form action="/admin/seva" method="POST" class="space-y-3">
+    <label>
+      <div class="text-sm text-muted">Select one member</div>
+      <select name="userId" class="p-3 border rounded w-full">
+        <option value="">-- choose member --</option>
+        <% members.forEach(m => { %>
+          <option value="<%= m._id %>"><%= m.name %> — <%= m.email %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <label>
+      <div class="text-sm text-muted">Or choose multiple (Ctrl/Cmd + click)</div>
+      <select name="userIds" multiple class="p-3 border rounded w-full" size="8">
+        <% members.forEach(m => { %>
+          <option value="<%= m._id %>"><%= m.name %> — <%= m.email %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <label>
+        <div class="text-sm text-muted">Date</div>
+        <input type="date" name="date" class="p-3 border rounded w-full" />
+      </label>
+
+      <label>
+        <div class="text-sm text-muted">Time slot</div>
+        <input type="text" name="timeSlot" placeholder="e.g. 06:00 - 07:00" class="p-3 border rounded w-full" />
+      </label>
+    </div>
+
+    <label>
+      <div class="text-sm text-muted">Seva type</div>
+      <input type="text" name="type" placeholder="Cooking, Deity Wakeup, Arati, Cleaning" class="p-3 border rounded w-full" />
+    </label>
+
+    <label>
+      <div class="text-sm text-muted">Note (optional)</div>
+      <textarea name="note" rows="2" class="p-3 border rounded w-full"></textarea>
+    </label>
+
+    <div class="flex gap-2">
+      <button type="submit" class="btn btn-primary">Assign Seva</button>
+      <a href="/admin/payments" class="btn btn-ghost">Manage Payments</a>
+    </div>
+  </form>
+</div>

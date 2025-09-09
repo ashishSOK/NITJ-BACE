@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BACE - Bhaktivedanta Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-iskcon-light min-h-screen font-poppins flex flex-col">
+<header class="site-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between py-3">
+      <div class="flex items-center gap-3">
+        <div class="logo-mark">
+          <span class="logo-initial">N</span>
+        </div>
+        <div class="leading-tight group cursor-pointer">
+          <div class="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-yellow-200 via-white to-yellow-100 text-transparent bg-clip-text transition-all duration-300 group-hover:tracking-wide">
+            NITJ BACE
+          </div>
+          <div class="text-xs md:text-sm text-yellow-100 italic tracking-wide opacity-90 group-hover:opacity-100 transition">
+            Bhaktivedanta Academy
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-4">
+        <% if (user) { %>
+          <span class="text-sm text-white mr-4">Welcome, <strong><%= user.name %></strong></span>
+          <a href="/dashboard" class="nav-link">Dashboard</a>
+
+          <!-- Admin link visible only if role === 'admin' -->
+          <% if (user.role === 'admin') { %>
+            <div class="relative">
+              <button id="admin-dropdown-btn" class="nav-link focus:outline-none flex items-center gap-2">
+                Admin
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <!-- simple dropdown -->
+              <div id="admin-dropdown" class="hidden absolute right-0 mt-2 w-44 bg-white rounded shadow-md z-50">
+                <a href="/admin/seva" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Assign Seva</a>
+                <a href="/admin/payments" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Payment Requests</a>
+                <a href="/admin/rent" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Manage Rent</a>
+                <a href="/admin/members" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Members</a>
+              </div>
+            </div>
+          <% } %>
+
+          <a href="/logout" class="nav-link">Logout</a>
+        <% } else { %>
+          <a href="/login" class="btn btn-ghost">Login</a>
+          <a href="/register" class="btn btn-primary">Register</a>
+        <% } %>
+      </nav>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button id="mobile-menu-btn" class="p-2 rounded-md bg-white shadow-sm" aria-label="Open menu">
+          <svg class="w-6 h-6 text-iskcon-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile nav (toggle with client.js) -->
+  <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+    <div class="px-4 py-4 space-y-2">
+      <% if (user) { %>
+        <a href="/dashboard" class="block text-gray-800">Dashboard</a>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin/seva" class="block text-gray-800">Admin</a>
+        <% } %>
+        <a href="/logout" class="block text-gray-800">Logout</a>
+      <% } else { %>
+        <a href="/login" class="block text-iskcon-orange font-medium">Login</a>
+        <a href="/register" class="block text-iskcon-blue font-medium">Register</a>
+      <% } %>
+    </div>
+  </div>
+</header>
+
+<main class="flex-grow w-full px-6 md:px-10 lg:px-16 py-12">
+  <div class="rounded-xl bg-white shadow-lg overflow-hidden p-10 mx-auto" style="max-width:1400px;">
+    <%- body %>
+  </div>
+</main>
+
+<footer class="bg-iskcon-blue text-white">
+  <div class="max-w-7xl mx-auto px-4 py-6 text-center">
+    <p class="text-sm tracking-wide">&copy; 2025 <span class="font-semibold">BACE, ISKCON</span>. Hare Krishna! 🙏</p>
+  </div>
+</footer>
+
+<script src="/js/client.js"></script>
+<script>
+  // small dropdown toggle
+  document.addEventListener('click', function(e){
+    const btn = document.getElementById('admin-dropdown-btn');
+    const dd = document.getElementById('admin-dropdown');
+    if (!btn || !dd) return;
+    if (btn.contains(e.target)) {
+      dd.classList.toggle('hidden');
+    } else if (!dd.contains(e.target)) {
+      dd.classList.add('hidden');
+    }
+  });
+</script>
+</body>
+</html>
